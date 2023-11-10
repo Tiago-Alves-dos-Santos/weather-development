@@ -18,6 +18,15 @@ div.home{
       }
     }
   }
+  div.card-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  div.short-info{
+    display: flex;
+    justify-content: space-between;
+  }
   div.menu{
     position: absolute;
     top: 5px;

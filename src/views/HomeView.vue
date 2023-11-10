@@ -6,28 +6,29 @@
           <img src="../assets/weather/10.png" />
         </div>
         <div class="card-title">
-          <span>Description </span>
-          <time>2001/02/89</time>
+          <span>Chuva Forte </span>
+          <span>10/11/2023</span>
         </div>
-
         <div>
-          <ul>
-            <li>
-              <!-- probablildade guarda chuva icone -->
-              <span>Chuva</span> 0.0
-            </li>
-            <li>
-              <!-- Direção do vento, seta icone -->
-              <span>Direção</span> 0.0
-            </li>
-            <li>
-              <!-- vento icone -->
-              <span>Vento</span> 0.0
-            </li>
-          </ul>
+          <h1 style="text-align: center;">31Cº</h1>
+        </div>
+        <div class="short-info">
+          <div>
+            <custom-icon icon="umbrella" width="20px" height="20px"></custom-icon> 
+            <span> 0.0</span>%
+          </div>
+          <div>
+            <custom-icon icon="compass"  width="20px" height="20px"></custom-icon>
+            <span> SE</span>
+          </div>
+          <div>
+            <custom-icon icon="wind"  width="20px" height="20px"></custom-icon>
+            <span> 27.7</span> Km/h
+          </div>
         </div>
         <!-- botoes -->
-        <div style="display: flex; justify-content: flex-end;">
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+          <span style="position: relative; top: 4px;">GRANJA-CE</span>
           <el-button type="primary" plain>Ver mais</el-button>
         </div>
         <div class="menu">
