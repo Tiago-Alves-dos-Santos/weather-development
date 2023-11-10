@@ -7,7 +7,7 @@ import App from './App.vue'
 import router from './router'
 /** CSS - SCSS */
 import 'element-plus/theme-chalk/dark/css-vars.css';
-import '@/assets/css/index.scss';
+import './assets/sass/index.scss';
 
 createApp(App)
 .use(ElementPlus)
