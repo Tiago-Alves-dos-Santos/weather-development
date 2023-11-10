@@ -25,6 +25,5 @@ const icon_img = computed({
     get() {
         return require('@/assets/icons/'+ props.icon + '.'+props.extension);
     },
-
 });
 </script>

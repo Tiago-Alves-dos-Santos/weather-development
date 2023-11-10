@@ -28,7 +28,7 @@
         </div>
         <!-- botoes -->
         <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-          <span style="position: relative; top: 4px;">GRANJA-CE</span>
+          <span style="position: relative; top: 4px;">Itapecerica da Serra, SP</span>
           <el-button type="primary" plain>Ver mais</el-button>
         </div>
         <div class="menu">
@@ -38,25 +38,24 @@
               <el-dropdown-menu>
                 <el-dropdown-item @click="console.log('teste')">LOCALIZAÇÃO ATUAL </el-dropdown-item>
                 <el-dropdown-item>MUDAR CIDADE </el-dropdown-item>
-                <el-dropdown-item>DIAS - FUTUROS </el-dropdown-item>
-                <el-dropdown-item>DIAS - PASSADO  </el-dropdown-item>
-                <el-dropdown-item>DATA - PERÍODO </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
       </el-card>
+      <card-more-info></card-more-info>
     </el-row>
 
-
-
+    <div class="futures-cards">
+      
+    </div>
   </div>
 </template>
 
 
 <script>
 // @ is an alias to /src
-// import GlassCard from '@/components/GlassCard.vue';
+import CardMoreInfo from '@/components/CardMoreInfo.vue';
 import * as Icons from '@element-plus/icons-vue'
 export default {
   name: 'HomeView',
@@ -66,16 +65,9 @@ export default {
     }
   },
   components: {
+    CardMoreInfo
   }
 }
 </script>
-
-<!-- Fazer nascer e por do sol visual -->
-<!-- nebulosidade -->
-<!-- temperaturea atual maxima e minima -->
-<!-- humidade -->
-<!-- fase da lua -->
-
-
 <!-- MENU -->
 <!-- Mudar cidade -> geolocalizaçao, codifo woid, nome -->
