@@ -6,7 +6,7 @@
           <img src="../assets/weather/10.png" />
         </div>
         <div class="card-title">
-          <span>Description</span>
+          <span>Description </span>
           <time>2001/02/89</time>
         </div>
 
