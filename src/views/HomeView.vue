@@ -1,70 +1,69 @@
 <template>
   <div class="home">
     <el-row justify="center">
-      <el-card :body-style="{ padding: '0px' }" body-class="card-center">
+      <el-card body-class="card-center">
         <div class="content-img">
-          <img src="../assets/weather/10.png"
-          class="image" />
+          <img src="../assets/weather/10.png" />
         </div>
-        <div style="padding: 14px">
+        <div class="card-title">
           <span>Description</span>
-          <div class="bottom">
-            <time class="time">2001/02/89</time>
-            <el-button text class="button">Operating</el-button>
-          </div>
+          <time>2001/02/89</time>
         </div>
 
         <div>
           <ul>
             <li>
               <!-- probablildade guarda chuva icone -->
-              <span>Chuva</span> 0.0 
+              <span>Chuva</span> 0.0
             </li>
             <li>
               <!-- Direção do vento, seta icone -->
-              <span>Direção</span> 0.0 
+              <span>Direção</span> 0.0
             </li>
             <li>
               <!-- vento icone -->
-              <span>Vento</span> 0.0 
+              <span>Vento</span> 0.0
             </li>
           </ul>
         </div>
+        <!-- botoes -->
+        <div style="display: flex; justify-content: flex-end;">
+          <el-button type="primary" plain>Ver mais</el-button>
+        </div>
+        <div class="menu">
+          <el-dropdown>
+            <el-button :icon="icons.Setting" circle type="primary" plain ></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="console.log('teste')">LOCALIZAÇÃO ATUAL </el-dropdown-item>
+                <el-dropdown-item>MUDAR CIDADE </el-dropdown-item>
+                <el-dropdown-item>DIAS - FUTUROS </el-dropdown-item>
+                <el-dropdown-item>DIAS - PASSADO  </el-dropdown-item>
+                <el-dropdown-item>DATA - PERÍODO </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </el-card>
     </el-row>
+
+
+
   </div>
 </template>
-<style>
-.time {
-  font-size: 12px;
-  color: #999;
-}
 
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button {
-  padding: 0;
-  min-height: auto;
-}
-
-.image {
-  width: 100%;
-  display: block;
-}
-</style>
 
 <script>
 // @ is an alias to /src
 // import GlassCard from '@/components/GlassCard.vue';
+import * as Icons from '@element-plus/icons-vue'
 export default {
-
   name: 'HomeView',
+  data() {
+    return {
+      icons: Icons
+    }
+  },
   components: {
   }
 }
@@ -75,3 +74,7 @@ export default {
 <!-- temperaturea atual maxima e minima -->
 <!-- humidade -->
 <!-- fase da lua -->
+
+
+<!-- MENU -->
+<!-- Mudar cidade -> geolocalizaçao, codifo woid, nome -->
