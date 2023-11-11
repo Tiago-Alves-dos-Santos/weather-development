@@ -58,9 +58,16 @@
       }" @back-card="moreOption"></card-more-info>
     </el-row>
 
-
-    <div class="futures-cards">
-
+    <div style="margin-top: 40px;">
+        <h1 style="text-align: center;">Previsões Futuras</h1>
+      <div class="futures-cards">
+        <card-future title="12/12"></card-future>
+        <card-future></card-future>
+        <card-future></card-future>
+        <card-future></card-future>
+        <card-future></card-future>
+        <card-future></card-future>
+      </div>
     </div>
   </div>
 </template>
@@ -69,11 +76,13 @@
 <script>
 // @ is an alias to /src
 import CardMoreInfo from '@/components/CardMoreInfo.vue';
+import CardFuture from '@/components/CardFuture.vue';
 import * as Icons from '@element-plus/icons-vue'
 export default {
   name: 'HomeView',
   components: {
-    CardMoreInfo
+    CardMoreInfo,
+    CardFuture
   },
   data() {
     return {

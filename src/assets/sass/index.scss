@@ -63,6 +63,12 @@ div.home{
     top: 5px;
     right: 5px;
   }
+  div.futures-cards{
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+  }
 }
 /******************************DARK*********************************/
 html.dark {
