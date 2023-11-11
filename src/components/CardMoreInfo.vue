@@ -2,7 +2,7 @@
     <div class="card-more-info">
         <el-card class="box-card">
             <div class="btn-back">
-                <el-button :icon="icons.Back" circle type="primary" plain ></el-button>
+                <el-button :icon="icons.Back" circle type="primary" plain @click="emit('back-card', 'back')"></el-button>
             </div>
             <div class="title">
                 <h3>Itapecerica da Serra, SP</h3>
@@ -40,8 +40,11 @@
 </template>
 <script setup>
 import * as Icons from '@element-plus/icons-vue'
-import { reactive, computed, ref, onMounted,watch   } from 'vue' 
+import { ref } from 'vue'
 const icons = ref(Icons);
+const emit = defineEmits(['back-card']);
+
+
 </script>
 <style scoped lang="scss">
 div.card-more-info {
@@ -50,6 +53,7 @@ div.card-more-info {
 
 div.box-card {
     position: relative;
+
     div.btn-back {
         position: absolute;
         top: 3px;

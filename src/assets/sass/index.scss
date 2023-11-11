@@ -1,5 +1,15 @@
+@import 'animation.scss';
 .bold{
   font-weight: bold;
+}
+.d-none{
+  display: none;
+}
+.d-flex{
+  display: flex;
+}
+.absolute{
+  position: absolute;
 }
 div.container-center{
   width: 100%;
@@ -8,6 +18,24 @@ div.container-center{
   justify-content: center;
 }
 div.home{
+  div.next-card{
+    position: absolute;
+    backface-visibility: hidden;
+    animation-name: rotate;
+    animation-duration: .8s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  div.next-card-show{
+    position: relative;
+    display: flex !important;
+    backface-visibility: hidden;
+    animation-name: rotate-inverse;
+    animation-duration: 1.6s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    
+  }
   div.card-center{
     position: relative;
     padding: 0px 5px 5px 5px;
