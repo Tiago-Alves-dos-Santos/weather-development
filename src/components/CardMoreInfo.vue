@@ -13,10 +13,12 @@
                         <span class="bold">humidity:</span> 83
                     </div>
                     <div>
-                        <span class="bold">MAX:</span> 40Cº
+                        <custom-icon icon="thermometer-cool" width="20px" height="20px"></custom-icon>
+                        <span class="bold">40Cº</span> 
                     </div>
                     <div>
-                        <span class="bold">Nascer do sol:</span> 5:35 am
+                        <custom-icon icon="sunrise" width="20px" height="20px"></custom-icon>
+                        <span class="bold">6:20 pm</span> 
                     </div>
                 </div>
                 <div class="right">
@@ -24,10 +26,12 @@
                         <span class="bold">cloudiness:</span> 24.0
                     </div>
                     <div>
-                        <span class="bold">MIN:</span> 40Cº
+                        <custom-icon icon="thermometer-hot" width="20px" height="20px"></custom-icon>
+                        <span class="bold">40Cº</span> 
                     </div>
                     <div>
-                        <span class="bold">Pôr do sol:</span> 6:20 pm
+                        <custom-icon icon="sunset" width="20px" height="20px"></custom-icon>
+                        <span class="bold">6:20 pm</span> 
                     </div>
                 </div>
             </div>
@@ -48,12 +52,12 @@ const emit = defineEmits(['back-card']);
 </script>
 <style scoped lang="scss">
 div.card-more-info {
-    width: 370px;
+   
 }
 
 div.box-card {
     position: relative;
-
+    width: 332px;
     div.btn-back {
         position: absolute;
         top: 3px;
