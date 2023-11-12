@@ -51,10 +51,6 @@ const emit = defineEmits(['back-card']);
 
 </script>
 <style scoped lang="scss">
-div.card-more-info {
-   
-}
-
 div.box-card {
     position: relative;
     width: 332px;

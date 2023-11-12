@@ -1,23 +1,40 @@
-div.city{
-    div.card-city{
+div.city {
+    div.card-city {
         display: flex;
         justify-content: center;
-        div.box-city{
+
+        div.box-city {
+            @media (min-width: 1300px) {
+                width: 50%;
+            }
+
             position: relative;
-            width: 50%;
+            width: 90%;
             min-width: 200px;
-            div.back-button{
+
+            div.back-button {
                 position: absolute;
                 top: 3px;
                 left: 4px;
             }
-            div.title{
+
+            div.title {
                 text-align: center;
             }
-            div.options{
+
+            div.options {
                 display: flex;
                 justify-content: center;
             }
+
+            div.partial-views {
+                .btn-save{
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-top: 20px;
+                }
+            }
+
         }
     }
 }
