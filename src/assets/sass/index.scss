@@ -67,7 +67,13 @@ div.home{
     width: 100%;
     overflow-y: auto;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    @media (max-width: 768px) {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+ }
+ 
   }
 }
 /******************************DARK*********************************/
