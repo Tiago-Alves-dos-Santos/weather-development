@@ -1,0 +1,23 @@
+div.city{
+    div.card-city{
+        display: flex;
+        justify-content: center;
+        div.box-city{
+            position: relative;
+            width: 50%;
+            min-width: 200px;
+            div.back-button{
+                position: absolute;
+                top: 3px;
+                left: 4px;
+            }
+            div.title{
+                text-align: center;
+            }
+            div.options{
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+}
