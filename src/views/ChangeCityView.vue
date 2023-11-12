@@ -19,6 +19,20 @@
                                 <el-radio-button label="Nome" />
                             </el-radio-group>
                         </div>
+                        <div class="partial-views">
+                            <div v-if="option == 'Código WOEID'" class="code-woeid">
+                                <code-woeid></code-woeid>
+                            </div>
+                            <div v-else-if="option == 'Geolocalização'" class="geolocation">
+                                <geo-location></geo-location>
+                            </div>
+                            <div v-else-if="option == 'IP'" class="geolocation">
+                                <ip-location></ip-location>
+                            </div>
+                            <div v-else-if="option == 'Nome'" class="geolocation">
+                                <name-city></name-city>
+                            </div>
+                        </div>
                     </el-card>
                 </div>
             </el-col>
@@ -28,6 +42,12 @@
 <script setup>
 import * as Icons from '@element-plus/icons-vue'
 import { reactive, computed, ref, onMounted, watch } from 'vue' 
+//components
+import CodeWoeid from '@/components/change-city/CodeWoeid.vue';
+import GeoLocation from '@/components/change-city/GeoLocation.vue';
+import IpLocation from '@/components/change-city/IpLocation.vue';
+import NameCity from '@/components/change-city/NameCity.vue';
+
 const icons = ref(Icons);
 const option = ref('Geolocalização');
 </script>
