@@ -42,7 +42,7 @@
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item @click="console.log('teste')">LOCALIZAÇÃO ATUAL </el-dropdown-item>
-                  <el-dropdown-item @click="goPage('city')">MUDAR CIDADE </el-dropdown-item>
+                  <el-dropdown-item @click="goToPage('city')">MUDAR CIDADE </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -122,8 +122,8 @@ export default {
           break;
       }
     },
-    goPage(name) {
-      this.$router.push({name:name});
+    goToPage(page) {
+      this.$router.push({name:page});
     }
   },
 
