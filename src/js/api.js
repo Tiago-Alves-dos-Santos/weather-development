@@ -1,6 +1,10 @@
 import axios from 'axios';
 const API = {
     request: axios,
+    position: {
+        latitude: '',
+        longitude: ''
+    },
     data: {
         key: '17284dd0',
         url: 'https://api.hgbrasil.com/',
@@ -34,6 +38,39 @@ const API = {
             let url = API.fullUrl() + city_name;
             return API.toUrl(url).href;
         }
+    },
+    getPositionYourLocation: (callback) => {
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            callback(position)
+        }, function (error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    ElMessage({
+                        message: 'Acesso negado ao tentar obter à localicação',
+                        type: 'error',
+                    });
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    ElMessage({
+                        message: "Informações de localização indisponíveis.",
+                        type: 'error',
+                    });
+                    break;
+                case error.TIMEOUT:
+                    ElMessage({
+                        message: "Tempo para obter a localização expirou.",
+                        type: 'error',
+                    });
+                    break;
+                case error.UNKNOWN_ERROR:
+                    ElMessage({
+                        message: "Erro desconhecido ao obter a localização.",
+                        type: 'error',
+                    });
+                    break;
+            }
+        });
     }
 }
 export default API;

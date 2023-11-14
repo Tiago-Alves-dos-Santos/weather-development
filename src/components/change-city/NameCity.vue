@@ -16,7 +16,7 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus'
 import axios from 'axios';
 import API from '../../js/api';
@@ -47,4 +47,10 @@ function save() {
     }
     
 }
+onMounted(() => {
+    if (DATABASE.getChoose() == 'Nome') {
+        let data = DATABASE.getCityName();
+        form.value.name = data.city_name;
+    }
+})
 </script>
