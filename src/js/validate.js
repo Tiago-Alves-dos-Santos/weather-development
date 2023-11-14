@@ -16,6 +16,13 @@ let VALIDATE = {
         return empty_erros;
     },
     validateField: (name,model, validate) => {
+        let parameter = '';
+        if (validate.includes(":")) {
+            let separeted = validate.split(":");
+            validate = separeted[0];
+            parameter = separeted[1];
+          }
+
         switch (validate) {
             case 'required':
                 if(model !== undefined && model !== null && model !== ''){//condiontion required served, for error necessary return false
@@ -26,14 +33,28 @@ let VALIDATE = {
                 }
                 break;
             case 'integer':
-                let result = null;
                 if(Number.isInteger(Number(model))){
-                    result = true;
+                    return true
                 }else{
                     VALIDATE.messages += `O campo ${name} aceita somente inteiros <br>`;
-                    result = false;
+                    return false;
                 }
-                return result;
+                break;
+            case 'min':
+                if(model.length >= parameter){
+                    return true;
+                }else{
+                    VALIDATE.messages += `O campo ${name} deve ter pelo menos ${parameter} caracteres <br>`;
+                    return false;
+                }
+                break;
+            case 'max':
+                if(model.length <= parameter){
+                    return true;
+                }else{
+                    VALIDATE.messages += `O campo ${name} deve ter no máximo ${parameter} caracteres <br>`;
+                    return false;
+                }
                 break;
             default:
 

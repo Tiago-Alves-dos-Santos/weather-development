@@ -33,14 +33,11 @@ const form = ref({
 function getWoeid() {
     messages.value = '';
     let validate = VALIDATE.validate([
-        'código',
         'cidade'
     ], [
-        form.value.code,
         form.value.city,
     ], [
-        ['required', 'integer'],
-        ['required']
+        ['required','min:5','max:20']
     ]);
     if (!validate) {
         messages.value = VALIDATE.messages;

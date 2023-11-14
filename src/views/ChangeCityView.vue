@@ -15,7 +15,6 @@
                             <el-radio-group v-model="option">
                                 <el-radio-button label="Código WOEID"/>
                                 <el-radio-button label="Geolocalização" checked />
-                                <el-radio-button label="IP" />
                                 <el-radio-button label="Nome" />
                             </el-radio-group>
                         </div>
@@ -25,9 +24,6 @@
                             </div>
                             <div v-else-if="option == 'Geolocalização'" class="geolocation">
                                 <geo-location></geo-location>
-                            </div>
-                            <div v-else-if="option == 'IP'" class="geolocation">
-                                <ip-location></ip-location>
                             </div>
                             <div v-else-if="option == 'Nome'" class="geolocation">
                                 <name-city></name-city>
@@ -45,7 +41,6 @@ import { reactive, computed, ref, onMounted, watch } from 'vue'
 //components
 import CodeWoeid from '@/components/change-city/CodeWoeid.vue';
 import GeoLocation from '@/components/change-city/GeoLocation.vue';
-import IpLocation from '@/components/change-city/IpLocation.vue';
 import NameCity from '@/components/change-city/NameCity.vue';
 
 const icons = ref(Icons);
