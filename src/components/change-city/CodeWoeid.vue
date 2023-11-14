@@ -9,11 +9,13 @@
             <el-input v-model="form.city" />
         </div>
         <div class="result">
-
+            <el-alert title="Erros de validação" type="error" :closable="false" v-show="messages" show-icon>
+                <p v-html="messages"></p>
+            </el-alert>
         </div>
         <div class="btn-save">
             <el-button type="primary" @click="getWoeid">Buscar</el-button>
-            <el-button type="success" >Salvar</el-button>
+            <el-button type="success" @click="save">Salvar</el-button>
         </div>
     </div>
 </template>
@@ -21,17 +23,35 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import API from '../../js/api';
+import VALIDATE from '../../js/validate';
 
+let messages = ref('');
 const form = ref({
     code: '',
     city: ''
 });
 function getWoeid() {
-    API.change_city.getWoeid(form.value.city).then(resultado => {
-        console.log('Resultado final:', resultado);
-        form.value.code = resultado.woeid;
-        form.value.city = resultado.name;
-    })
-    console.log(form.value.code);
+    messages.value = '';
+    let validate = VALIDATE.validate([
+        'código',
+        'cidade'
+    ], [
+        form.value.code,
+        form.value.city,
+    ], [
+        ['required', 'integer'],
+        ['required']
+    ]);
+    if (!validate) {
+        messages.value = VALIDATE.messages;
+    } else {
+        API.change_city.getWoeid(form.value.city).then(response => {
+            form.value.code = response.woeid;
+            form.value.city = response.name;
+        })
+    }
+}
+function save() {
+    console.log('save');
 }
 </script>
