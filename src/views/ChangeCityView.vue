@@ -37,12 +37,21 @@
 </template>
 <script setup>
 import * as Icons from '@element-plus/icons-vue'
-import { reactive, computed, ref, onMounted, watch } from 'vue' 
+import { reactive, computed, ref, onMounted, watch } from 'vue'
+import axios from 'axios';
+import API from '../js/api';
+import VALIDATE from '../js/validate'; 
+import DATABASE from '../js/database';
 //components
 import CodeWoeid from '@/components/change-city/CodeWoeid.vue';
 import GeoLocation from '@/components/change-city/GeoLocation.vue';
 import NameCity from '@/components/change-city/NameCity.vue';
 
 const icons = ref(Icons);
-const option = ref('Geolocalização');
+const option = ref(DATABASE.getChoose());
+
+onMounted(() => {
+
+})
+
 </script>

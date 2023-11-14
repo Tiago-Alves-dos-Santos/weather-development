@@ -40,6 +40,14 @@ let VALIDATE = {
                     return false;
                 }
                 break;
+            case 'number':
+                if(typeof model === 'number'){
+                    return true
+                }else{
+                    VALIDATE.messages += `O campo ${name} deve ser um valor numérico <br>`;
+                    return false;
+                }
+                break;
             case 'min':
                 if(model.length >= parameter){
                     return true;

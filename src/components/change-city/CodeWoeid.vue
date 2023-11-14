@@ -14,18 +14,20 @@
             </el-alert>
         </div>
         <div class="btn-save">
-            <el-button type="primary" @click="getWoeid">Buscar</el-button>
+            <el-button type="primary" @click="getWoeid">Atualizar</el-button>
             <el-button type="success" @click="save">Salvar</el-button>
         </div>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { ElMessage } from 'element-plus'
 import axios from 'axios';
 import API from '../../js/api';
 import VALIDATE from '../../js/validate';
+import DATABASE from '../../js/database';
 
-let messages = ref('');
+const messages = ref('');
 const form = ref({
     code: '',
     city: ''
@@ -37,7 +39,7 @@ function getWoeid() {
     ], [
         form.value.city,
     ], [
-        ['required','min:5','max:20']
+        ['required', 'min:5', 'max:20']
     ]);
     if (!validate) {
         messages.value = VALIDATE.messages;
@@ -49,6 +51,35 @@ function getWoeid() {
     }
 }
 function save() {
-    console.log('save');
+    messages.value = '';
+    let validate = VALIDATE.validate([
+        'código'
+    ], [
+        form.value.code,
+    ], [
+        ['required', 'integer']
+    ]);
+    if (!validate) {
+        messages.value = VALIDATE.messages;
+    } else {
+        if (!form.value.code) {
+            API.change_city.getWoeid(form.value.city).then(response => {
+                form.value.code = response.woeid;
+                form.value.city = response.name;
+            });
+        }
+        DATABASE.setWoeid(form.value.code);
+        ElMessage({
+            message: "Dados salvos",
+            type: 'success',
+        });
+    }
 }
+onMounted(() => {
+    if (DATABASE.getChoose() == 'Código WOEID') {
+        let data = DATABASE.getwoeid();
+        form.value.code = data.woeid;
+        console.log(typeof form.value.code, form.value.code);
+    }
+})
 </script>
