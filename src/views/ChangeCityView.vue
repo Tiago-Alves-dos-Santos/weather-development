@@ -50,8 +50,9 @@ import NameCity from '@/components/change-city/NameCity.vue';
 const icons = ref(Icons);
 const option = ref(DATABASE.getChoose());
 
-onMounted(() => {
 
+
+onMounted(() => {
 })
 
 </script>

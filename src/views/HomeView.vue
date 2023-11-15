@@ -8,32 +8,32 @@
       }">
         <el-card body-class="card-center face">
           <div class="content-img">
-            <img src="../assets/weather/10.png" />
+            <img :src="image_file" />
           </div>
           <div class="card-title">
-            <span>Chuva Forte </span>
-            <span>10/11/2023</span>
+            <span>{{ card_center.description }} </span>
+            <span>{{ card_center.date }} as {{ card_center.time }}</span>
           </div>
           <div>
-            <h1 style="text-align: center;">31Cº</h1>
+            <h1 style="text-align: center;">{{ card_center.temp }}Cº</h1>
           </div>
           <div class="short-info">
             <div>
               <custom-icon icon="umbrella" width="20px" height="20px"></custom-icon>
-              <span> 0.0</span>%
+              <span style="margin-left: 10px;"> {{ card_center.rain_probability }}</span>%
             </div>
             <div>
               <custom-icon icon="compass" width="20px" height="20px"></custom-icon>
-              <span> SE</span>
+              <span style="margin-left: 3px; position: relative; top: -3px;"> {{ card_center.wind_cardinal }}</span>
             </div>
             <div>
               <custom-icon icon="wind" width="20px" height="20px"></custom-icon>
-              <span> 27.7</span> Km/h
+              <span style="margin-left: 10px;"> {{ card_center.wind_speedy }}</span> 
             </div>
           </div>
           <!-- botoes -->
           <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-            <span style="position: relative; top: 4px;">Itapecerica da Serra, SP</span>
+            <span style="position: relative; top: 4px;">{{ card_center.city }}</span>
             <el-button type="primary" plain @click="moreOption('next')">Ver mais</el-button>
           </div>
           <div class="menu">
@@ -55,11 +55,20 @@
         'd-flex': animation.card_two.next_card,
         'next-card-show': animation.card_two.rotate_inverse,
         'next-card': animation.card_two.next_card
-      }" @back-card="moreOption"></card-more-info>
+      }" @back-card="moreOption"
+      :humidity="card_center.humidity"
+      :city_name="card_center.city"
+      :cloudiness="card_center.cloudiness"
+      :max="card_center.max"
+      :min="card_center.min"
+      :sunrise="card_center.sunrise"
+      :sunset="card_center.sunset"
+      :moon_phase="card_center.moon_phase"
+      ></card-more-info>
     </el-row>
 
     <div style="margin-top: 40px;">
-        <h1 style="text-align: center;">Previsões Futuras</h1>
+      <h1 style="text-align: center;">Previsões Futuras</h1>
       <div class="futures-cards">
         <card-future title="12/12"></card-future>
         <card-future></card-future>
@@ -78,6 +87,10 @@
 import CardMoreInfo from '@/components/CardMoreInfo.vue';
 import CardFuture from '@/components/CardFuture.vue';
 import * as Icons from '@element-plus/icons-vue'
+import axios from 'axios';
+import API from '../js/api';
+import VALIDATE from '../js/validate';
+import DATABASE from '../js/database';
 export default {
   name: 'HomeView',
   components: {
@@ -87,6 +100,7 @@ export default {
   data() {
     return {
       icons: Icons,
+      image_file: '',
       animation: {
         card_one: {
           next_card: false,
@@ -96,6 +110,27 @@ export default {
           next_card: false,
           rotate_inverse: false
         },
+      },
+      card_center: {
+        img_id: '',
+        date: '',
+        time: '',
+        city: '',
+        wind_cardinal: '',
+        wind_speedy: '',
+        sunrise: '',
+        sunset: '',
+        moon_phase: '',
+        humidity: '',
+        cloudiness: '',
+        temp: '',
+        //subjson
+        rain_probability: '',
+        max: '',
+        min: '',
+        description: ''
+      },
+      cards_future: {
 
       }
     }
@@ -123,10 +158,65 @@ export default {
       }
     },
     goToPage(page) {
-      this.$router.push({name:page});
+      this.$router.push({ name: page });
+    },
+    locationNow(){
+      
+    },
+    async start() {
+      switch (DATABASE.getChoose()) {
+        case 'Código WOEID':
+
+          break;
+        case 'Geolocalização':
+
+          break;
+        case 'Nome':
+          let request = API.urls.urlCityName(DATABASE.getCityName().city_name);
+          const response = await axios.get(request);
+          let results = response.data.results;
+          let forecastToday = response.data.results.forecast[0];
+          let forecastFuture = response.data.results.forecast;
+          console.log(results);
+          this.card_center.img_id = results.img_id;
+          this.card_center.date = results.date;
+          this.card_center.time = results.time;
+          this.card_center.city = results.city;
+          this.card_center.img_id = results.img_id;
+          this.card_center.humidity = results.humidity;
+          this.card_center.cloudiness = results.cloudiness;
+          this.card_center.wind_speedy = results.wind_speedy;
+          this.card_center.wind_cardinal = results.wind_cardinal;
+          this.card_center.sunrise = results.sunrise;
+          this.card_center.sunset = results.sunset;
+          this.card_center.moon_phase = results.moon_phase;
+          this.card_center.temp = results.temp;
+          // console.log(forecastToday);
+
+          //forecast today
+          this.card_center.description = forecastToday.description;
+          this.card_center.max = forecastToday.max;
+          this.card_center.min = forecastToday.min;
+          this.card_center.rain_probability = forecastToday.rain_probability;
+          //forecast future
+          break;
+
+        default:
+          break;
+      }
     }
   },
+  mounted() {
+    this.start();
 
+    let interval = setInterval(() => {
+      if(this.card_center.img_id){
+        this.image_file = require(`../assets/weather/${this.card_center.img_id}.png`);
+        clearInterval(interval);
+      }
+    }, 2000);
+
+  }
 }
 </script>
 <!-- MENU -->

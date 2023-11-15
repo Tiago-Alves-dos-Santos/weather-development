@@ -7,11 +7,12 @@ const API = {
     },
     data: {
         key: '17284dd0',
-        url: 'https://api.hgbrasil.com/',
+        //proxy configurado - vue.config.js
+        url: '/weather',
         endpoint: 'weather',
         woeid: 0,
     },
-    fullUrl: () => API.data.url + API.data.endpoint + '?key=' + API.data.key,
+    fullUrl: () => API.data.url + '?key=' + API.data.key,
     baseUrl: () => {
         return new URL(API.fullUrl()).href;
     },
@@ -31,12 +32,12 @@ const API = {
                 user_ip = userIp;
             }
             let url = API.fullUrl() + '&user_ip=' + user_ip;
-            return API.toUrl(url).href;
+            return url;
         },
-        urlCityName(name, state) {
-            let city_name = `&city_name=${name},${state}`;
+        urlCityName(name) {
+            let city_name = `&city_name=${name}`;
             let url = API.fullUrl() + city_name;
-            return API.toUrl(url).href;
+            return url;
         }
     },
     getPositionYourLocation: (callback) => {
