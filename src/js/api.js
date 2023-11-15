@@ -43,6 +43,7 @@ const API = {
     getPositionYourLocation: (callback) => {
 
         navigator.geolocation.getCurrentPosition(function (position) {
+            // position.coords.latitude - position.coords.longitude
             callback(position)
         }, function (error) {
             switch (error.code) {

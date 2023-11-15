@@ -72,6 +72,7 @@
       <div class="futures-cards">
         <card-future v-for="(value, index) in cards_future" :key="index" v-show="index != 0"
         :title="value.date"
+        :weekday="value.weekday"
         :humidity="value.humidity"
         :cloudiness="value.cloudiness"
         :max="value.max"
@@ -161,24 +162,16 @@ export default {
     goToPage(page) {
       this.$router.push({ name: page });
     },
-    locationNow(){
-
+    locationNow(position){
+      DATABASE.setGeoLocation(position.coords.latitude, position.coords.longitude);
     },
-    async start() {
-      switch (DATABASE.getChoose()) {
-        case 'Código WOEID':
-
-          break;
-        case 'Geolocalização':
-
-          break;
-        case 'Nome':
-          let request = API.urls.urlCityName(DATABASE.getCityName().city_name);
-          const response = await axios.get(request);
-          let results = response.data.results;
-          let forecastToday = response.data.results.forecast[0];
-          let forecastFuture = response.data.results.forecast;
-          console.log(forecastFuture);
+    getLocation(){
+      API.getPositionYourLocation(locationNow);
+      this.start();
+    },
+    loadData(results,) {
+          let forecastToday = results.forecast[0];
+          let forecastFuture = results.forecast;
           this.card_center.img_id = results.img_id;
           this.card_center.date = results.date;
           this.card_center.time = results.time;
@@ -192,8 +185,6 @@ export default {
           this.card_center.sunset = results.sunset;
           this.card_center.moon_phase = results.moon_phase;
           this.card_center.temp = results.temp;
-          // console.log(forecastToday);
-
           //forecast today
           this.card_center.description = forecastToday.description;
           this.card_center.max = forecastToday.max;
@@ -201,6 +192,19 @@ export default {
           this.card_center.rain_probability = forecastToday.rain_probability;
           //forecast future
           this.cards_future = forecastFuture;
+    },
+    async start() {
+      switch (DATABASE.getChoose()) {
+        case 'Código WOEID':
+
+          break;
+        case 'Geolocalização':
+
+          break;
+        case 'Nome':
+          let request = API.urls.urlCityName(DATABASE.getCityName().city_name);
+          const response = await axios.get(request);
+          this.loadData(response.data.results);
           break;
 
         default:

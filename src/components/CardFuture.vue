@@ -2,7 +2,9 @@
     <div>
         <el-card class="box-card">
             <div class="title">
-                <h2 v-text="props.title"></h2>
+                <h2>
+                    {{ props.weekday }} - {{ props.title }}
+                </h2>
             </div>
             <div class="divisor">
                 <div class="left">
@@ -33,9 +35,6 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-more">
-                <el-button>Ver mais</el-button>
-            </div>
         </el-card>
     </div>
 </template>
@@ -43,7 +42,11 @@
 const props = defineProps({
     title:{
         type:String,
-        default:'10/11'
+        default:''
+    },
+    weekday:{
+        type:String,
+        default:''
     },
     humidity:{
         type:[String, Number],
@@ -90,10 +93,5 @@ div.divisor {
         display: flex;
         flex-direction: column;
     }
-}
-div.btn-more{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
 }
 </style>
