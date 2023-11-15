@@ -1,5 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
+module.exports = {
   lintOnSave: false,
   chainWebpack: (config) => {
     config.plugin('html').tap((args) => {
@@ -9,5 +9,19 @@ module.exports = defineConfig({
   },
   //process.env.NODE_ENV === 'production' ?'/VueCli/':'/'
   publicPath: '/weather-development/',
-  transpileDependencies: true
-})
+  transpileDependencies: true,
+
+  devServer: {
+    proxy: {
+      '/weather': {
+        target: 'https://api.hgbrasil.com',
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/weather': '/weather',
+        },
+      },
+    },
+  },
+
+}
