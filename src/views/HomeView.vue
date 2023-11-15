@@ -28,7 +28,7 @@
             </div>
             <div>
               <custom-icon icon="wind" width="20px" height="20px"></custom-icon>
-              <span style="margin-left: 10px;"> {{ card_center.wind_speedy }}</span> 
+              <span style="margin-left: 10px;"> {{ card_center.wind_speedy }}</span>
             </div>
           </div>
           <!-- botoes -->
@@ -55,30 +55,17 @@
         'd-flex': animation.card_two.next_card,
         'next-card-show': animation.card_two.rotate_inverse,
         'next-card': animation.card_two.next_card
-      }" @back-card="moreOption"
-      :humidity="card_center.humidity"
-      :city_name="card_center.city"
-      :cloudiness="card_center.cloudiness"
-      :max="card_center.max"
-      :min="card_center.min"
-      :sunrise="card_center.sunrise"
-      :sunset="card_center.sunset"
-      :moon_phase="card_center.moon_phase"
-      ></card-more-info>
+      }" @back-card="moreOption" :humidity="card_center.humidity" :city_name="card_center.city"
+        :cloudiness="card_center.cloudiness" :max="card_center.max" :min="card_center.min" :sunrise="card_center.sunrise"
+        :sunset="card_center.sunset" :moon_phase="card_center.moon_phase"></card-more-info>
     </el-row>
 
     <div style="margin-top: 40px;">
       <h1 style="text-align: center;">Previsões Futuras</h1>
       <div class="futures-cards">
-        <card-future v-for="(value, index) in cards_future" :key="index" v-show="index != 0"
-        :title="value.date"
-        :weekday="value.weekday"
-        :humidity="value.humidity"
-        :cloudiness="value.cloudiness"
-        :max="value.max"
-        :min="value.min"
-        :wind_speedy="value.wind_speedy"
-        :rain_probability="value.rain_probability" ></card-future>
+        <card-future v-for="(value, index) in cards_future" :key="index" v-show="index != 0" :title="value.date"
+          :weekday="value.weekday" :humidity="value.humidity" :cloudiness="value.cloudiness" :max="value.max"
+          :min="value.min" :wind_speedy="value.wind_speedy" :rain_probability="value.rain_probability"></card-future>
 
       </div>
     </div>
@@ -162,36 +149,39 @@ export default {
     goToPage(page) {
       this.$router.push({ name: page });
     },
-    locationNow(position){
+    async locationNow(position) {
       DATABASE.setGeoLocation(position.coords.latitude, position.coords.longitude);
+      let request = API.urls.urlLocation(position.coords.latitude, position.coords.longitude);
+      const response = await axios.get(request);
+      this.loadData(response.data.results);
     },
-    getLocation(){
-      API.getPositionYourLocation(locationNow);
-      this.start();
+    getLocation() {
+      API.getPositionYourLocation(this.locationNow);
+      // this.start();
     },
     loadData(results,) {
-          let forecastToday = results.forecast[0];
-          let forecastFuture = results.forecast;
-          this.card_center.img_id = results.img_id;
-          this.card_center.date = results.date;
-          this.card_center.time = results.time;
-          this.card_center.city = results.city;
-          this.card_center.img_id = results.img_id;
-          this.card_center.humidity = results.humidity;
-          this.card_center.cloudiness = results.cloudiness;
-          this.card_center.wind_speedy = results.wind_speedy;
-          this.card_center.wind_cardinal = results.wind_cardinal;
-          this.card_center.sunrise = results.sunrise;
-          this.card_center.sunset = results.sunset;
-          this.card_center.moon_phase = results.moon_phase;
-          this.card_center.temp = results.temp;
-          //forecast today
-          this.card_center.description = forecastToday.description;
-          this.card_center.max = forecastToday.max;
-          this.card_center.min = forecastToday.min;
-          this.card_center.rain_probability = forecastToday.rain_probability;
-          //forecast future
-          this.cards_future = forecastFuture;
+      let forecastToday = results.forecast[0];
+      let forecastFuture = results.forecast;
+      this.card_center.img_id = results.img_id;
+      this.card_center.date = results.date;
+      this.card_center.time = results.time;
+      this.card_center.city = results.city;
+      this.card_center.img_id = results.img_id;
+      this.card_center.humidity = results.humidity;
+      this.card_center.cloudiness = results.cloudiness;
+      this.card_center.wind_speedy = results.wind_speedy;
+      this.card_center.wind_cardinal = results.wind_cardinal;
+      this.card_center.sunrise = results.sunrise;
+      this.card_center.sunset = results.sunset;
+      this.card_center.moon_phase = results.moon_phase;
+      this.card_center.temp = results.temp;
+      //forecast today
+      this.card_center.description = forecastToday.description;
+      this.card_center.max = forecastToday.max;
+      this.card_center.min = forecastToday.min;
+      this.card_center.rain_probability = forecastToday.rain_probability;
+      //forecast future
+      this.cards_future = forecastFuture;
     },
     async start() {
       switch (DATABASE.getChoose()) {
@@ -199,7 +189,7 @@ export default {
 
           break;
         case 'Geolocalização':
-
+          API.getPositionYourLocation(this.locationNow);
           break;
         case 'Nome':
           let request = API.urls.urlCityName(DATABASE.getCityName().city_name);
@@ -216,7 +206,7 @@ export default {
     this.start();
 
     let interval = setInterval(() => {
-      if(this.card_center.img_id){
+      if (this.card_center.img_id) {
         this.image_file = require(`../assets/weather/${this.card_center.img_id}.png`);
         clearInterval(interval);
       }

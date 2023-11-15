@@ -38,6 +38,11 @@ const API = {
             let city_name = `&city_name=${name}`;
             let url = API.fullUrl() + city_name;
             return url;
+        },
+        urlLocation(latitude,longitude){
+            let location = `&lat=${latitude}&lon=${longitude}`;
+            let url = API.fullUrl() + location;
+            return url;
         }
     },
     getPositionYourLocation: (callback) => {
