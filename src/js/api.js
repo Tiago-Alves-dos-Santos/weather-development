@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ElMessage } from 'element-plus'
 const API = {
     request: axios,
     position: {
@@ -16,22 +17,18 @@ const API = {
     baseUrl: () => {
         return new URL(API.fullUrl()).href;
     },
-    toUrl: (url) => new URL(url),
     change_city: {
         getWoeid: async (city) => {
             let url = `https://api.hgbrasil.com/stats/find_woeid?key=${API.data.key}&format=json-cors&sdk_version=console&city_name=${city}`;
-            url = API.toUrl(url).href;
+            url = new URL(url).href;
             let result = await axios.get(url);
             return result.data;
         }
     },
     urls: {
-        urlUserIp: (userIp = null) => {
-            let user_ip = 'remote';
-            if (userIp) {
-                user_ip = userIp;
-            }
-            let url = API.fullUrl() + '&user_ip=' + user_ip;
+        urlWoeid: (woedi) => {
+            let code = `&woeid=${woedi}`;
+            let url = API.fullUrl() + code;
             return url;
         },
         urlCityName(name) {

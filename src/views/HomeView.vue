@@ -41,7 +41,7 @@
               <el-button :icon="icons.Setting" circle type="primary" plain></el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="console.log('teste')">LOCALIZAÇÃO ATUAL </el-dropdown-item>
+                  <el-dropdown-item @click="getLocation">LOCALIZAÇÃO ATUAL </el-dropdown-item>
                   <el-dropdown-item @click="goToPage('city')">MUDAR CIDADE </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -78,6 +78,7 @@
 import CardMoreInfo from '@/components/CardMoreInfo.vue';
 import CardFuture from '@/components/CardFuture.vue';
 import * as Icons from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus';
 import axios from 'axios';
 import API from '../js/api';
 import VALIDATE from '../js/validate';
@@ -157,7 +158,6 @@ export default {
     },
     getLocation() {
       API.getPositionYourLocation(this.locationNow);
-      // this.start();
     },
     loadData(results,) {
       let forecastToday = results.forecast[0];
@@ -184,21 +184,65 @@ export default {
       this.cards_future = forecastFuture;
     },
     async start() {
-      switch (DATABASE.getChoose()) {
-        case 'Código WOEID':
+      let request = null;
+      let response = null;
+      if (DATABASE.getChoose()) {
+        switch (DATABASE.getChoose()) {
+          case 'Código WOEID':
+            request = API.urls.urlWoeid(DATABASE.getwoeid().woeid);
+            response = await axios.get(request);
+            this.loadData(response.data.results);
+            break;
+          case 'Geolocalização':
+            // API.getPositionYourLocation(this.locationNow);
+            try {
+              let location = DATABASE.getGeoLocation();
+              let request = API.urls.urlLocation(location.latitude, location.longitude);
+              const response = await axios.get(request);
+              this.loadData(response.data.results);
+            } catch (error) {
+              ElMessageBox.confirm(
+                'Erro com os dados de latitude e logintude!',
+                'Atenção',
+                {
+                  confirmButtonText: 'Mudar valores',
+                  cancelButtonText: 'Recarregar',
+                  type: 'warning',
+                }
+              )
+                .then(() => {
+                  this.$router.push({ name: 'city' });
+                })
+                .catch(() => {
+                  window.location.reload();
+                });
+            }
+            break;
+          case 'Nome':
+            request = API.urls.urlCityName(DATABASE.getCityName().city_name);
+            response = await axios.get(request);
+            this.loadData(response.data.results);
+            break;
 
-          break;
-        case 'Geolocalização':
-          API.getPositionYourLocation(this.locationNow);
-          break;
-        case 'Nome':
-          let request = API.urls.urlCityName(DATABASE.getCityName().city_name);
-          const response = await axios.get(request);
-          this.loadData(response.data.results);
-          break;
-
-        default:
-          break;
+          default:
+            break;
+        }
+      } else { //first time or empty data
+        ElMessageBox.confirm(
+          'Informe como deseja obter sua localização!',
+          'Localização',
+          {
+            confirmButtonText: 'Sim, desejo informar',
+            cancelButtonText: 'Não desejo informar',
+            type: 'info',
+          }
+        )
+          .then(() => {
+            this.$router.push({ name: 'city' });
+          })
+          .catch(() => {
+              this.$router.push({ name:'empty' });
+          });
       }
     }
   },
