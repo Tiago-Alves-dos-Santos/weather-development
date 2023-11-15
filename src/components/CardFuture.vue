@@ -8,28 +8,28 @@
                 <div class="left">
                     <div>
                         <!-- <custom-icon icon="humidity" width="20px" height="20px"></custom-icon> -->
-                        <span class="bold">humidity:</span> 83
+                        <span class="bold">Humidade:</span> {{ props.humidity }} %
                     </div>
                     <div>
                         <custom-icon icon="thermometer-hot" width="20px" height="20px"></custom-icon>
-                        <span >40Cº</span>
+                        <span >{{props.max}}Cº</span>
                     </div>
                     <div>
                         <custom-icon icon="umbrella" width="20px" height="20px"></custom-icon>
-                        <span > 0.0</span>% 
+                        <span > {{ props.rain_probability }} </span>% 
                     </div>
                 </div>
                 <div class="right">
                     <div>
-                        <span class="bold">cloudiness:</span> 24.0
+                        <span class="bold">Nebulosidade:</span> {{ props.cloudiness }}%
                     </div>
                     <div>
                         <custom-icon icon="thermometer-cool" width="20px" height="20px"></custom-icon>
-                        <span >40Cº</span>
+                        <span >{{props.min}}Cº</span>
                     </div>
                     <div>
                         <custom-icon icon="wind" width="20px" height="20px"></custom-icon>
-                        <span> 25.5</span> km/h
+                        <span> {{ props.wind_speedy }} </span>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,31 @@ const props = defineProps({
     title:{
         type:String,
         default:'10/11'
-    }
+    },
+    humidity:{
+        type:[String, Number],
+        default:''
+    },
+    cloudiness:{
+        type:[String, Number],
+        default:''
+    },
+    min:{
+        type:[String, Number],
+        default:0
+    },
+    max:{
+        type:[String, Number],
+        default:0
+    },
+    rain_probability:{
+        type:[String, Number],
+        default:0
+    },
+    wind_speedy:{
+        type:String,
+        default:'0'
+    },
 });
 </script>
 <style lang="scss" scoped>

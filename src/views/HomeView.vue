@@ -70,12 +70,15 @@
     <div style="margin-top: 40px;">
       <h1 style="text-align: center;">Previsões Futuras</h1>
       <div class="futures-cards">
-        <card-future title="12/12"></card-future>
-        <card-future></card-future>
-        <card-future></card-future>
-        <card-future></card-future>
-        <card-future></card-future>
-        <card-future></card-future>
+        <card-future v-for="(value, index) in cards_future" :key="index" v-show="index != 0"
+        :title="value.date"
+        :humidity="value.humidity"
+        :cloudiness="value.cloudiness"
+        :max="value.max"
+        :min="value.min"
+        :wind_speedy="value.wind_speedy"
+        :rain_probability="value.rain_probability" ></card-future>
+
       </div>
     </div>
   </div>
@@ -130,9 +133,7 @@ export default {
         min: '',
         description: ''
       },
-      cards_future: {
-
-      }
+      cards_future: null,
     }
   },
   methods: {
@@ -161,7 +162,7 @@ export default {
       this.$router.push({ name: page });
     },
     locationNow(){
-      
+
     },
     async start() {
       switch (DATABASE.getChoose()) {
@@ -177,7 +178,7 @@ export default {
           let results = response.data.results;
           let forecastToday = response.data.results.forecast[0];
           let forecastFuture = response.data.results.forecast;
-          console.log(results);
+          console.log(forecastFuture);
           this.card_center.img_id = results.img_id;
           this.card_center.date = results.date;
           this.card_center.time = results.time;
@@ -199,6 +200,7 @@ export default {
           this.card_center.min = forecastToday.min;
           this.card_center.rain_probability = forecastToday.rain_probability;
           //forecast future
+          this.cards_future = forecastFuture;
           break;
 
         default:
