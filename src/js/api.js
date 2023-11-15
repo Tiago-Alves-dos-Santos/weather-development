@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router'
 const API = {
     request: axios,
     position: {
@@ -36,7 +37,7 @@ const API = {
             let url = API.fullUrl() + city_name;
             return url;
         },
-        urlLocation(latitude,longitude){
+        urlLocation(latitude, longitude) {
             let location = `&lat=${latitude}&lon=${longitude}`;
             let url = API.fullUrl() + location;
             return url;
@@ -51,7 +52,7 @@ const API = {
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     ElMessage({
-                        message: 'Acesso negado ao tentar obter à localicação',
+                        message: 'Habilite a permissão de localização e tente novamente',
                         type: 'error',
                     });
                     break;

@@ -64,7 +64,7 @@
       <h1 style="text-align: center;">Previsões Futuras</h1>
       <div class="futures-cards">
         <card-future v-for="(value, index) in cards_future" :key="index" v-show="index != 0" :title="value.date"
-          :weekday="value.weekday" :humidity="value.humidity" :cloudiness="value.cloudiness" :max="value.max"
+          :weekday="value.weekday" :cloudiness="value.cloudiness" :max="value.max"
           :min="value.min" :wind_speedy="value.wind_speedy" :rain_probability="value.rain_probability"></card-future>
 
       </div>
@@ -78,10 +78,9 @@
 import CardMoreInfo from '@/components/CardMoreInfo.vue';
 import CardFuture from '@/components/CardFuture.vue';
 import * as Icons from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessageBox, ElLoading } from 'element-plus';
 import axios from 'axios';
 import API from '../js/api';
-import VALIDATE from '../js/validate';
 import DATABASE from '../js/database';
 export default {
   name: 'HomeView',
@@ -123,6 +122,7 @@ export default {
         description: ''
       },
       cards_future: null,
+      load: null,
     }
   },
   methods: {
@@ -192,6 +192,25 @@ export default {
             request = API.urls.urlWoeid(DATABASE.getwoeid().woeid);
             response = await axios.get(request);
             this.loadData(response.data.results);
+            try {
+
+            } catch (error) {
+              ElMessageBox.confirm(
+                'Erro com o código WOEID!',
+                'Erro',
+                {
+                  confirmButtonText: 'Mudar valores',
+                  cancelButtonText: 'Recarregar',
+                  type: 'error',
+                }
+              )
+                .then(() => {
+                  this.$router.push({ name: 'city' });
+                })
+                .catch(() => {
+                  window.location.reload();
+                });
+            }
             break;
           case 'Geolocalização':
             // API.getPositionYourLocation(this.locationNow);
@@ -203,14 +222,15 @@ export default {
             } catch (error) {
               ElMessageBox.confirm(
                 'Erro com os dados de latitude e logintude!',
-                'Atenção',
+                'Erro',
                 {
                   confirmButtonText: 'Mudar valores',
                   cancelButtonText: 'Recarregar',
-                  type: 'warning',
+                  type: 'error',
                 }
               )
                 .then(() => {
+                  this.load.close();
                   this.$router.push({ name: 'city' });
                 })
                 .catch(() => {
@@ -219,9 +239,28 @@ export default {
             }
             break;
           case 'Nome':
-            request = API.urls.urlCityName(DATABASE.getCityName().city_name);
-            response = await axios.get(request);
-            this.loadData(response.data.results);
+            try {
+              request = API.urls.urlCityName(DATABASE.getCityName().city_name);
+              response = await axios.get(request);
+              this.loadData(response.data.results);
+            } catch (error) {
+              ElMessageBox.confirm(
+                'Erro com o nome da cidade. Reveja!',
+                'Erro',
+                {
+                  confirmButtonText: 'Mudar valores',
+                  cancelButtonText: 'Recarregar',
+                  type: 'error',
+                }
+              )
+                .then(() => {
+                  this.load.close();
+                  this.$router.push({ name: 'city' });
+                })
+                .catch(() => {
+                  window.location.reload();
+                });
+            }
             break;
 
           default:
@@ -229,30 +268,46 @@ export default {
         }
       } else { //first time or empty data
         ElMessageBox.confirm(
-          'Informe como deseja obter sua localização!',
-          'Localização',
+          'Sem dados salvos. Informe sua localização!',
+          'Atenção',
           {
-            confirmButtonText: 'Sim, desejo informar',
-            cancelButtonText: 'Não desejo informar',
-            type: 'info',
+            confirmButtonText: 'Localização atual',
+            cancelButtonText: 'Ver opções',
+            type: 'warning',
           }
         )
           .then(() => {
-            this.$router.push({ name: 'city' });
+            this.getLocation();
+            this.load.close();
+            setTimeout(() => {
+              if (!DATABASE.getGeoLocation().latitude) {
+                this.$router.push({ name: 'city' });
+              }
+            }, 1500);
+
           })
           .catch(() => {
-              this.$router.push({ name:'empty' });
+            this.load.close();
+            this.$router.push({ name: 'city' });
           });
       }
     }
   },
+
   mounted() {
+    this.load = ElLoading.service({
+      fullscreen: true,
+      lock: true,
+      text: 'Aguarde',
+      background: 'rgba(0, 0, 0, 0.7)',
+    });
     this.start();
 
     let interval = setInterval(() => {
       if (this.card_center.img_id) {
         this.image_file = require(`../assets/weather/${this.card_center.img_id}.png`);
         clearInterval(interval);
+        this.load.close();
       }
     }, 2000);
 

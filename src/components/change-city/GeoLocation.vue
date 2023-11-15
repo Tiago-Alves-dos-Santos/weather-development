@@ -3,10 +3,10 @@
         <div class="">
             <div style="margin-top:20px"></div>
             <label>Informe latitude</label>
-            <el-input v-model="form.lat" />
+            <el-input v-model="form.lat" @keyup.enter="save"/>
             <div style="margin-top:10px"></div>
             <label>Informe longitude.</label>
-            <el-input v-model="form.long" />
+            <el-input v-model="form.long" @keyup.enter="save"/>
             <div style="margin-top:10px"></div>
         </div>
         <div class="result">
@@ -15,7 +15,7 @@
             </el-alert>
         </div>
         <div class="btn-save">
-            <el-button type="primary" @click="getLocation">Atualizar dados</el-button>
+            <el-button type="primary" @click="getLocation">Obter localização atual</el-button>
             <el-button type="success" @click="save">Salvar</el-button>
         </div>
     </div>
