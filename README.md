@@ -102,7 +102,7 @@ Sistema consumindo api de clima. O sistema obtem informações dos dias atuais e
 
 <!-- USAGE EXAMPLES -->
 ## Modo de uso
-Veja o vídeo no youtube: 
+Veja o vídeo no youtube: <a href="https://youtu.be/eOzNQ_VSKSU">Clique aqui!</a>
 
 <p align="right">(<a href="#readme-top">Voltar ao topo</a>)</p>
 
