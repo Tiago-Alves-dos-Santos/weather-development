@@ -43,6 +43,7 @@
                 <el-dropdown-menu>
                   <el-dropdown-item @click="getLocation">LOCALIZAÇÃO ATUAL </el-dropdown-item>
                   <el-dropdown-item @click="goToPage('city')">MUDAR CIDADE </el-dropdown-item>
+                  <el-dropdown-item @click="changeTheme">TEMA {{ theme_name }} </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -64,8 +65,8 @@
       <h1 style="text-align: center;">Previsões Futuras</h1>
       <div class="futures-cards">
         <card-future v-for="(value, index) in cards_future" :key="index" v-show="index != 0" :title="value.date"
-          :weekday="value.weekday" :cloudiness="value.cloudiness" :max="value.max"
-          :min="value.min" :wind_speedy="value.wind_speedy" :rain_probability="value.rain_probability"></card-future>
+          :weekday="value.weekday" :cloudiness="value.cloudiness" :max="value.max" :min="value.min"
+          :wind_speedy="value.wind_speedy" :rain_probability="value.rain_probability"></card-future>
 
       </div>
     </div>
@@ -92,6 +93,7 @@ export default {
     return {
       icons: Icons,
       image_file: '',
+      theme_name: '',
       animation: {
         card_one: {
           next_card: false,
@@ -149,6 +151,17 @@ export default {
     },
     goToPage(page) {
       this.$router.push({ name: page });
+    },
+    changeTheme() {
+      let element = document.documentElement;
+      let isDark = element.classList.contains('dark');
+      if (isDark) {
+        element.classList.remove('dark');
+        this.theme_name = 'ESCURO';
+      } else {
+        element.classList.add('dark');
+        this.theme_name = 'CLARO';
+      }
     },
     async locationNow(position) {
       DATABASE.setGeoLocation(position.coords.latitude, position.coords.longitude);
@@ -277,13 +290,17 @@ export default {
           }
         )
           .then(() => {
+            
             this.getLocation();
-            this.load.close();
             setTimeout(() => {
               if (!DATABASE.getGeoLocation().latitude) {
                 this.$router.push({ name: 'city' });
               }
             }, 1500);
+            setTimeout(() => {
+              this.load.close();
+            }, 2300);
+            
 
           })
           .catch(() => {
@@ -301,6 +318,12 @@ export default {
       text: 'Aguarde',
       background: 'rgba(0, 0, 0, 0.7)',
     });
+    let isDark = document.documentElement.classList.contains('dark');
+    if (isDark) {
+      this.theme_name = 'CLARO';
+    } else {
+      this.theme_name = 'ESCURO';
+    }
     this.start();
 
     let interval = setInterval(() => {
