@@ -37,6 +37,7 @@
 </template>
 <script setup>
 import * as Icons from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import { reactive, computed, ref, onMounted, watch } from 'vue'
 import axios from 'axios';
 import API from '../js/api';
@@ -48,7 +49,7 @@ import GeoLocation from '@/components/change-city/GeoLocation.vue';
 import NameCity from '@/components/change-city/NameCity.vue';
 
 const icons = ref(Icons);
-const option = ref(DATABASE.getChoose());
+const option = ref(DATABASE.getChoose() ? DATABASE.getChoose() : 'Geolocalização');
 
 
 

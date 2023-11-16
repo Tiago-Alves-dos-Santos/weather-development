@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router'
 const API = {
     request: axios,
     position: {
@@ -16,27 +18,28 @@ const API = {
     baseUrl: () => {
         return new URL(API.fullUrl()).href;
     },
-    toUrl: (url) => new URL(url),
     change_city: {
         getWoeid: async (city) => {
             let url = `https://api.hgbrasil.com/stats/find_woeid?key=${API.data.key}&format=json-cors&sdk_version=console&city_name=${city}`;
-            url = API.toUrl(url).href;
+            url = new URL(url).href;
             let result = await axios.get(url);
             return result.data;
         }
     },
     urls: {
-        urlUserIp: (userIp = null) => {
-            let user_ip = 'remote';
-            if (userIp) {
-                user_ip = userIp;
-            }
-            let url = API.fullUrl() + '&user_ip=' + user_ip;
+        urlWoeid: (woedi) => {
+            let code = `&woeid=${woedi}`;
+            let url = API.fullUrl() + code;
             return url;
         },
         urlCityName(name) {
             let city_name = `&city_name=${name}`;
             let url = API.fullUrl() + city_name;
+            return url;
+        },
+        urlLocation(latitude, longitude) {
+            let location = `&lat=${latitude}&lon=${longitude}`;
+            let url = API.fullUrl() + location;
             return url;
         }
     },
@@ -49,7 +52,7 @@ const API = {
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     ElMessage({
-                        message: 'Acesso negado ao tentar obter à localicação',
+                        message: 'Habilite a permissão de localização e tente novamente',
                         type: 'error',
                     });
                     break;

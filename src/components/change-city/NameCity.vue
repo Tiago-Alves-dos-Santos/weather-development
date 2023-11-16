@@ -2,8 +2,8 @@
     <div>
         <div class="">
             <div style="margin-top:20px"></div>
-            <label>Nome da sua cidade</label>
-            <el-input v-model="form.name" />
+            <label>Nome da sua cidade - Ex: Cidade, UF</label>
+            <el-input v-model="form.name" placeholder="Sobral, CE" @keyup.enter="save"/>
         </div>
         <div class="result">
             <el-alert title="Erros de validação" type="error" :closable="false" v-show="messages" show-icon>
@@ -34,18 +34,22 @@ function save() {
     ], [
         form.value.name,
     ], [
-        ['required','min:5','max:50'],
+        ['required', 'min:5', 'max:50'],
     ]);
     if (!validate) {
         messages.value = VALIDATE.messages;
     } else {
         DATABASE.setCityName(form.value.name);
         ElMessage({
+            message: "Em caso de erro no nome a cidade a ser exibida será: São Paulo-SP",
+            type: 'warning',
+        });
+        ElMessage({
             message: "Dados salvos",
             type: 'success',
         });
     }
-    
+
 }
 onMounted(() => {
     if (DATABASE.getChoose() == 'Nome') {

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ChangeCityView from '../views/ChangeCityView.vue';
+import EmptyView from '../views/EmptyView.vue';
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/city',
     name: 'city',
     component: ChangeCityView
+  },
+  {
+    path: '/empty',
+    name: 'empty',
+    component: EmptyView
   },
   // {
   //   path: '/about',

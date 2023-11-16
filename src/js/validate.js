@@ -41,7 +41,8 @@ let VALIDATE = {
                 }
                 break;
             case 'number':
-                if(typeof model === 'number'){
+                
+                if(typeof parseFloat(model) === 'number' && !isNaN(model)){
                     return true
                 }else{
                     VALIDATE.messages += `O campo ${name} deve ser um valor numérico <br>`;
