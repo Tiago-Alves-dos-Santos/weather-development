@@ -8,7 +8,7 @@ module.exports = {
     });
   },
   //process.env.NODE_ENV === 'production' ?'/VueCli/':'/'
-  publicPath: '/weather-development/',
+  publicPath: '/weather/',
   transpileDependencies: true,
 
   devServer: {
